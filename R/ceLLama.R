@@ -85,7 +85,7 @@ get_reason <- function(annotation, description, model, url, seed = 100, temperat
   )
   response <- httr::POST(url, body = data, encode = "json")
   content <- httr::content(response, "parsed")
-  if(verbose) message(">> Reason Response: ", content$response)
+  if(verbose) message(">> Reason: ", content$response)
   
   return(content$response)
 }
@@ -138,4 +138,3 @@ ceLLama <- function(
   
   return(annotations)
 }
-

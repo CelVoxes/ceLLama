@@ -1,13 +1,8 @@
 ceLLama
 ================
 
-<figure>
-<img src="ceLLama_files/cellama.png" alt="llama" />
-<figcaption aria-hidden="true">llama</figcaption>
-</figure>
-
-ceLLama is a simple automation pipeline for cell type annotations using
-large-language models (LLMs).
+![](ceLLama_files/cellama.png) ceLLama is a simple automation pipeline
+for cell type annotations using large-language models (LLMs).
 
 It has several advantages:
 
@@ -65,7 +60,7 @@ pbmc <- SCTransform(pbmc, verbose = F) %>%
 DimPlot(pbmc, label = T, label.size = 3) + theme_linedraw() + theme(aspect.ratio = 1)
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
+![](README_files/figure-gfm/pbmc2700-1.png)<!-- -->
 
 ``` r
 # Find cluster markers
@@ -115,7 +110,28 @@ DimPlot(pbmc, label = T, repel = T, label.size = 3) + theme_linedraw() + theme(a
 
 ![](README_files/figure-gfm/transfer%20annotations-1.png)<!-- -->
 
+## Creating Reports
+
+You can also create custom reports explaining why the annotations were
+assigned.
+
 ``` r
 # Get the reason for the annotation! (a bit slower)
 res <- ceLLama(pbmc.markers.list, temperature = 0, seed = 101, get_reason = T)
+
+# These creates 
+generate_report_md(res)
+create_html_report()
 ```
+
+You could check the example report [here](report.html).
+
+#### Disclaimer
+
+> LLMs makes mistakes, please check important info.
+
+## License
+
+CC BY-NC 4.0
+
+Please refer to <https://creativecommons.org/licenses/by-nc/4.0/>.
