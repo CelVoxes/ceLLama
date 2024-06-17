@@ -1,1 +1,2 @@
-*.html linguist-document
+*.html linguist-detectable=false
+*.htm inguist-detectable=false
