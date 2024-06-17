@@ -1,4 +1,6 @@
-### Cluster 0 
+## Cluster Report
+ Date:  2024-06-18 01:50:29 
+ <hr> ### Cluster 0 
 **Annotation:** Dendritic cells (DCs) 
  
 
@@ -13,7 +15,7 @@
 
 Overall, the gene expression profile suggests that this cell cluster is likely a population of mature dendritic cells that have been activated and are preparing to migrate to lymphoid organs to present antigens to T-cells. 
 
-### Cluster 1 
+<hr> ### Cluster 1 
 **Annotation:** Neutrophils 
  
 
@@ -34,7 +36,7 @@ Here's why:
 
 Overall, the pattern of gene expression suggests that this cell cluster is enriched for neutrophils that have been activated in response to an inflammatory stimulus. 
 
-### Cluster 2 
+<hr> ### Cluster 2 
 **Annotation:** CD8+ T cells 
  
 
@@ -61,7 +63,7 @@ Considering these gene expression patterns, the annotation "CD8+ T cells" is a r
 
 Please note that this annotation is based on the gene expression profile alone and may not be definitive without additional information or experimental validation. 
 
-### Cluster 3 
+<hr> ### Cluster 3 
 **Annotation:** Plasma B cells 
  
 
@@ -84,7 +86,7 @@ On the other hand, the down-regulated genes are mostly involved in inflammation,
 
 Overall, the up-regulation of B cell-specific surface proteins, MHC class II genes, and Ig gene expression, along with the down-regulation of inflammatory genes, suggests that this cell cluster is likely a population of plasma B cells. 
 
-### Cluster 4 
+<hr> ### Cluster 4 
 **Annotation:** CD8+ T cells (Tc1) 
  
 
@@ -117,7 +119,7 @@ The up-regulation of **GZMA**, **GZMK**, and **NCR3** suggests that this cell cl
 
 In summary, the combination of up-regulated genes involved in CD8+ T cell function (e.g., CCL5, IL7R, CD8A/B) and down-regulated genes not typically associated with CD8+ T cells (e.g., LYZ, S100A9/A8, HLA-DRA/PB1) supports the annotation "CD8+ T cells (Tc1)". 
 
-### Cluster 5 
+<hr> ### Cluster 5 
 **Annotation:** NK cells 
  
 
@@ -141,7 +143,7 @@ The down-regulated genes also support this annotation:
 
 Overall, the combination of up-regulated genes involved in cytotoxic activity, chemotaxis, and immune cell function, along with the down-regulation of genes characteristic of other immune cell types, strongly suggests that this cell cluster is composed of Natural Killer cells. 
 
-### Cluster 6 
+<hr> ### Cluster 6 
 **Annotation:** Macrophage/Monocyte 
  
 
@@ -157,7 +159,7 @@ Overall, the combination of up-regulated genes involved in cytotoxic activity, c
 
 In summary, the combination of immune-related gene expression, inflammation-related gene expression, and the down-regulation of T-cell-specific genes suggests that this cell cluster is likely composed of macrophages and monocytes. 
 
-### Cluster 7 
+<hr> ### Cluster 7 
 **Annotation:** CD8+ T cells (cytotoxic/suppressor) 
  
 
@@ -178,7 +180,7 @@ Here are some key points:
 
 Taking all these points into consideration, it is reasonable to annotate this cell cluster as CD8+ T cells (cytotoxic/suppressor), given their expression of CD8A and involvement in cytotoxic/suppressor functions. 
 
-### Cluster 8 
+<hr> ### Cluster 8 
 **Annotation:** Macrophage/Monocyte 
  
 
@@ -194,7 +196,7 @@ Taking all these points into consideration, it is reasonable to annotate this ce
 
 Overall, the gene expression profile suggests that this cell cluster is likely a macrophage or monocyte population, possibly with an activated or mature phenotype. 
 
-### Cluster 9 
+<hr> ### Cluster 9 
 **Annotation:** Myeloid cells (e.g., neutrophils or monocytes) 
  
 
@@ -218,4 +220,4 @@ On the other hand, some of the down-regulated genes are also consistent with thi
 
 While this annotation is not definitive without additional information, the combination of up-regulated genes involved in platelet activation, immune response, and cytoskeletal organization, along with down-regulation of ribosomal proteins and a long non-coding RNA, suggests that this cell cluster may be enriched for myeloid cells, such as neutrophils or monocytes. 
  
-> created by [ceLLama](https://github.com/eonurk/ceLLama)
+> Automatically created by [ceLLama](https://github.com/eonurk/ceLLama)

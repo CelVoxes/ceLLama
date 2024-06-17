@@ -103,7 +103,9 @@ generate_report_md(res)
 create_html_report()
 ```
 
-You could check the example report [here](report.html).
+![](ceLLama_files/report_example.png)
+
+You could check the full report [here](report.html).
 
 #### Disclaimer
 

@@ -9,13 +9,16 @@ generate_report_md <- function(annotations, output_file = "report.md") {
         description <- annotations[[i]]$description
         reason <- annotations[[i]]$reason
         
-        paste("### Cluster", i-1, 
+        paste("<hr> ### Cluster", i-1,
               "\n**Annotation:**", annotation, "\n",
               "\n\n**Description:**", description, "\n",
               "\n\n**Reason:**", reason, "\n")
     })
     
-    report_content <- paste(paste(unlist(report), collapse = "\n"), "\n> created by [ceLLama](https://github.com/eonurk/ceLLama)")
+    report_content <- paste("## Cluster Report\n", 
+                            "Date: ",Sys.time(), "\n",
+                            paste(unlist(report), collapse = "\n"),
+                            "\n> Automatically created by [ceLLama](https://github.com/eonurk/ceLLama)")
     writeLines(report_content, con = output_file)
 }
 
@@ -23,5 +26,6 @@ generate_report_md <- function(annotations, output_file = "report.md") {
 #' 
 #' @export
 create_html_report <- function(md_file = "report.md", html_file = "report.html") {
-    rmarkdown::render(md_file, output_file = html_file, output_format = "html_document")
+    rmarkdown::render(md_file, output_file = html_file, 
+                      output_format = rmarkdown::html_document(css = "R/styles.css"))
 }

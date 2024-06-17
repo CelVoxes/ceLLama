@@ -24,7 +24,7 @@ devtools::install_github("eonurk/ceLLama")
 First, you need to download [`ollama`](https://ollama.com/).
 
 Then you can choose the model of your choice. Currently, one of the best
-open source LLM model is Llama3. You can run it on your terminal simply
+open source LLM models is Llama3. You can run it on your terminal simply
 using:
 
 ``` bash
@@ -124,7 +124,9 @@ generate_report_md(res)
 create_html_report()
 ```
 
-You could check the example report [here](report.html).
+![](ceLLama_files/report_example.png)
+
+You could check the full report [here](report.html).
 
 #### Disclaimer
 
