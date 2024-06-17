@@ -6,6 +6,8 @@ library(httr)
 #' @param degs A data frame containing gene markers with their log2 fold changes.
 #' @param n Number of top genes to select for both up- and down-regulated lists.
 #' @return A list with top up-regulated and down-regulated genes.
+#' 
+#' @export
 select_top_genes <- function(degs, n = 20) {
   up_genes <- degs[order(degs$avg_log2FC, decreasing = TRUE), "gene"][1:n]
   down_genes <- degs[order(degs$avg_log2FC, decreasing = FALSE), "gene"][1:n]
@@ -17,6 +19,8 @@ select_top_genes <- function(degs, n = 20) {
 #' @param top_genes A list of top genes for each cluster.
 #' @param base_prompt A base prompt to use for formatting the annotation data.
 #' @return A list of formatted annotation prompts for each cluster.
+#' 
+#' @export
 format_annotation_data <- function(top_genes, base_prompt) {
   annotation_data <- lapply(names(top_genes), function(cluster) {
     up_genes <- paste(top_genes[[cluster]]$up, collapse = ", ")
@@ -36,6 +40,8 @@ format_annotation_data <- function(top_genes, base_prompt) {
 #' @param model The model to use for annotation.
 #' @param url The URL for the annotation service.
 #' @return The annotation for the cluster.
+#' 
+#' @export
 get_annotation <- function(description, model, url, seed = 100, temperature = 0) {
   data <- list(
     model = model,
@@ -60,6 +66,8 @@ get_annotation <- function(description, model, url, seed = 100, temperature = 0)
 #' @param model The model to use for the reason generation.
 #' @param url The URL for the reason generation service.
 #' @return The reason for the annotation.
+#' 
+#' @export
 get_reason <- function(annotation, description, model, url, seed = 100, temperature = 0, verbose = T) {
   reason_prompt <- paste("The annotation for the cell cluster is:", annotation, 
                          ". Can you provide the reason for this annotation based on the following description:", 
@@ -95,6 +103,8 @@ get_reason <- function(annotation, description, model, url, seed = 100, temperat
 #' @param url The URL for the annotation service.
 #' @param temperature a number between 0-1, creates diversity for the response
 #' @return A list of annotations and reasons for each cell cluster.
+#' 
+#' @export
 ceLLama <- function(
   marker.list,
   n_genes = 20,

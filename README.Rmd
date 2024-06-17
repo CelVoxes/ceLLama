@@ -6,6 +6,9 @@ output: github_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+
+![llama](ceLLama_files/cellama.png)
+
 ceLLama is a simple automation pipeline for cell type annotations using large-language models (LLMs). 
 
 It has several advantages:
@@ -16,6 +19,12 @@ It has several advantages:
 - Trained on almost all internet!
 
 ceLLama can be super useful for quick & dirty cell type checks!
+
+## How to install
+
+```{r eval=FALSE}
+devtools::install_github("eonurk/ceLLama")
+```
 
 ## How to use
 
@@ -65,7 +74,7 @@ pbmc.markers <- FindAllMarkers(pbmc, verbose = F)
 pbmc.markers.list <- split(pbmc.markers, pbmc.markers$cluster)
 ```
 
-```{r}
+```{r run ceLLama}
 # run cellama!
 # set seed, make temperature 0 for reproducible results
 library(ceLLama)
@@ -73,7 +82,7 @@ library(ceLLama)
 res <- ceLLama(pbmc.markers.list, temperature = 0, seed = 101)
 ```
 
-```{r}
+```{r transfer annotations}
 # transfer the labels
 annotations <- map_chr(res, 1)
 
