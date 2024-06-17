@@ -107,7 +107,7 @@ You could check the example report [here](report.html).
 
 #### Disclaimer
 
-> LLMs makes mistakes, please check important info.
+> LLMs make mistakes, please check important info.
 
 ## License
 CC BY-NC 4.0
