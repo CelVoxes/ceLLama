@@ -1,41 +1,49 @@
 ceLLama
 ================
 
-![](ceLLama_files/cellama.png) ceLLama is a simple automation pipeline
-for cell type annotations using large-language models (LLMs).
+![](ceLLama_files/cellama.png)
 
-It has several advantages:
+ceLLama is a streamlined automation pipeline for cell type annotations
+using large-language models (LLMs).
 
-- Works locally, thus no information leak.
-- Takes negative genes into account.
-- Quite fast.
-- Trained on almost all internet!
+### Advantages:
 
-ceLLama can be super useful for quick & dirty cell type checks!
+- **Privacy**: Operates locally, ensuring no data leaks.
+- **Comprehensive Analysis**: Considers negative genes.
+- **Speed**: Efficient processing.
+- **Extensive Training**: Depends on vast data from Internet.
 
-## How to install
+ceLLama is ideal for quick and preliminary cell type checks!
+
+## Installation
+
+To install ceLLama, use the following command:
 
 ``` r
 devtools::install_github("eonurk/ceLLama")
 ```
 
-## How to use
+## Usage
 
-First, you need to download [`ollama`](https://ollama.com/).
+#### Step 1: Install Ollama
 
-Then you can choose the model of your choice. Currently, one of the best
-open source LLM models is Llama3. You can run it on your terminal simply
-using:
+Download [`Ollama`](https://ollama.com/).
+
+#### Step 2: Choose Your Model
+
+Select your preferred model. For instance, to run the Llama3 model, use
+the following terminal command:
 
 ``` bash
 ollama run llama3
 ```
 
-This starts a local server on your machine, and you can see if it is
-running by checking <http://localhost:11434/>. It should say “Ollama is
-running”.
+This initiates a local server, which can be verified by visiting
+<http://localhost:11434/>. The page should display “Ollama is running”.
 
-Then you are ready to go!
+#### Step 3: Annotate Cell Types
+
+Load the required libraries and data:
 
 ``` r
 library(Seurat)
@@ -62,6 +70,8 @@ DimPlot(pbmc, label = T, label.size = 3) + theme_linedraw() + theme(aspect.ratio
 
 ![](README_files/figure-gfm/pbmc2700-1.png)<!-- -->
 
+Identify cluster markers:
+
 ``` r
 # Find cluster markers
 pbmc.markers <- FindAllMarkers(pbmc, verbose = F)
@@ -69,6 +79,8 @@ pbmc.markers <- FindAllMarkers(pbmc, verbose = F)
 # split into a lists per cluster
 pbmc.markers.list <- split(pbmc.markers, pbmc.markers$cluster)
 ```
+
+Run ceLLama:
 
 ``` r
 # run cellama!
@@ -98,6 +110,8 @@ res <- ceLLama(pbmc.markers.list, temperature = 0, seed = 101)
 
     ## >> Response: Myeloid cells (e.g., neutrophils or monocytes)
 
+Transfer the labels:
+
 ``` r
 # transfer the labels
 annotations <- map_chr(res, 1)
@@ -112,8 +126,7 @@ DimPlot(pbmc, label = T, repel = T, label.size = 3) + theme_linedraw() + theme(a
 
 ## Creating Reports
 
-You can also create custom reports explaining why the annotations were
-assigned.
+Generate detailed reports explaining the annotations:
 
 ``` r
 # Get the reason for the annotation! (a bit slower)
@@ -126,14 +139,13 @@ create_html_report()
 
 ![](ceLLama_files/report_example.png)
 
-You could check the full report [here](report.html).
+View the full report [here](report.html).
 
-#### Disclaimer
+## Disclaimer
 
 > LLMs make mistakes, please check important info.
 
 ## License
 
-CC BY-NC 4.0
-
-Please refer to <https://creativecommons.org/licenses/by-nc/4.0/>.
+This project is licensed under the CC BY-NC 4.0 License. For more
+details, visit [here](https://creativecommons.org/licenses/by-nc/4.0/).
