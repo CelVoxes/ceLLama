@@ -16,9 +16,12 @@ ceLLama is a streamlined automation pipeline for cell type annotations using lar
 - **Privacy**: Operates locally, ensuring no data leaks.
 - **Comprehensive Analysis**: Considers negative genes.
 - **Speed**: Efficient processing.
-- **Extensive Training**: Depends on vast data from Internet.
+- **Extensive Reporting**: Generates customized reports.
 
 ceLLama is ideal for quick and preliminary cell type checks!
+
+> [!NOTE]
+> Check the [tutorial](ceLLama/pbmc2700.ipynb) for Scanpy example.
 
 ## Installation
 
@@ -43,9 +46,7 @@ ollama run llama3
 
 This initiates a local server, which can be verified by visiting http://localhost:11434/. The page should display "Ollama is running".
 
-
 #### Step 3: Annotate Cell Types
-
 
 Load the required libraries and data:
 ```{r pbmc2700, message=FALSE, warning=FALSE}
@@ -56,19 +57,18 @@ library(httr)
 pbmc.data <- Read10X("../../Downloads/filtered_gene_bc_matrices/hg19/")
 
 pbmc <- CreateSeuratObject(counts = pbmc.data, project = "pbmc3k", min.cells = 3, min.features = 200)
-
 pbmc[["percent.mt"]] <- PercentageFeatureSet(pbmc, pattern = "^MT-")
-
 pbmc <- subset(pbmc, subset = nFeature_RNA > 200 & nFeature_RNA < 2500 & percent.mt < 5)
 
 # note that you can chain multiple commands together with %>%
-pbmc <- SCTransform(pbmc, verbose = F) %>%
+pbmc <- pbmc %>% 
+    SCTransform(verbose = F) %>%
     RunPCA(verbose = F) %>%
     FindNeighbors(dims = 1:10, verbose = F) %>%
     FindClusters(resolution = 0.5, verbose = F) %>% 
     RunUMAP(dims = 1:10, verbose = F)
 
-DimPlot(pbmc, label = T, label.size = 3) + theme_linedraw() + theme(aspect.ratio = 1)
+DimPlot(pbmc, label = T, label.size = 3) + theme_void() + theme(aspect.ratio = 1)
 ```
 
 Identify cluster markers:
@@ -82,12 +82,15 @@ pbmc.markers.list <- split(pbmc.markers, pbmc.markers$cluster)
 
 Run ceLLama:
 ```{r run ceLLama}
-# run cellama!
 # set seed, make temperature 0 for reproducible results
 library(ceLLama)
 
 res <- ceLLama(pbmc.markers.list, temperature = 0, seed = 101)
 ```
+
+> [!TIP]
+> Increase `temperature` to diversify outputs.
+> Set different `base_prompt` to customize annotations.
 
 Transfer the labels:
 ```{r transfer annotations}
@@ -97,7 +100,7 @@ annotations <- map_chr(res, 1)
 names(annotations) <- levels(pbmc)
 pbmc <- RenameIdents(pbmc, annotations)
 
-DimPlot(pbmc, label = T, repel = T, label.size = 3) + theme_linedraw() + theme(aspect.ratio = 1)
+DimPlot(pbmc, label = T, repel = T, label.size = 3) + theme_void() + theme(aspect.ratio = 1)
 ```
 
 ## Creating Reports
@@ -118,6 +121,7 @@ View the full report [here](report.html).
 
 ## Disclaimer
 
+> [!IMPORTANT]
 > LLMs make mistakes, please check important info.
 
 ## License

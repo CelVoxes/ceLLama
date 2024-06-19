@@ -11,9 +11,12 @@ using large-language models (LLMs).
 - **Privacy**: Operates locally, ensuring no data leaks.
 - **Comprehensive Analysis**: Considers negative genes.
 - **Speed**: Efficient processing.
-- **Extensive Training**: Depends on vast data from Internet.
+- **Extensive Reporting**: Generates customized reports.
 
 ceLLama is ideal for quick and preliminary cell type checks!
+
+> \[!NOTE\] Check the [tutorial](ceLLama/pbmc2700.ipynb) for Scanpy
+> example.
 
 ## Installation
 
@@ -53,19 +56,18 @@ library(httr)
 pbmc.data <- Read10X("../../Downloads/filtered_gene_bc_matrices/hg19/")
 
 pbmc <- CreateSeuratObject(counts = pbmc.data, project = "pbmc3k", min.cells = 3, min.features = 200)
-
 pbmc[["percent.mt"]] <- PercentageFeatureSet(pbmc, pattern = "^MT-")
-
 pbmc <- subset(pbmc, subset = nFeature_RNA > 200 & nFeature_RNA < 2500 & percent.mt < 5)
 
 # note that you can chain multiple commands together with %>%
-pbmc <- SCTransform(pbmc, verbose = F) %>%
+pbmc <- pbmc %>% 
+    SCTransform(verbose = F) %>%
     RunPCA(verbose = F) %>%
     FindNeighbors(dims = 1:10, verbose = F) %>%
     FindClusters(resolution = 0.5, verbose = F) %>% 
     RunUMAP(dims = 1:10, verbose = F)
 
-DimPlot(pbmc, label = T, label.size = 3) + theme_linedraw() + theme(aspect.ratio = 1)
+DimPlot(pbmc, label = T, label.size = 3) + theme_void() + theme(aspect.ratio = 1)
 ```
 
 ![](README_files/figure-gfm/pbmc2700-1.png)<!-- -->
@@ -83,7 +85,6 @@ pbmc.markers.list <- split(pbmc.markers, pbmc.markers$cluster)
 Run ceLLama:
 
 ``` r
-# run cellama!
 # set seed, make temperature 0 for reproducible results
 library(ceLLama)
 
@@ -110,6 +111,9 @@ res <- ceLLama(pbmc.markers.list, temperature = 0, seed = 101)
 
     ## >> Response: Myeloid cells (e.g., neutrophils or monocytes)
 
+> \[!TIP\] Increase `temperature` to diversify outputs. Set different
+> `base_prompt` to customize annotations.
+
 Transfer the labels:
 
 ``` r
@@ -119,7 +123,7 @@ annotations <- map_chr(res, 1)
 names(annotations) <- levels(pbmc)
 pbmc <- RenameIdents(pbmc, annotations)
 
-DimPlot(pbmc, label = T, repel = T, label.size = 3) + theme_linedraw() + theme(aspect.ratio = 1)
+DimPlot(pbmc, label = T, repel = T, label.size = 3) + theme_void() + theme(aspect.ratio = 1)
 ```
 
 ![](README_files/figure-gfm/transfer%20annotations-1.png)<!-- -->
@@ -143,7 +147,7 @@ View the full report [here](report.html).
 
 ## Disclaimer
 
-> LLMs make mistakes, please check important info.
+> \[!IMPORTANT\] LLMs make mistakes, please check important info.
 
 ## License
 
