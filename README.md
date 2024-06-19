@@ -15,8 +15,9 @@ using large-language models (LLMs).
 
 ceLLama is ideal for quick and preliminary cell type checks!
 
-> \[!NOTE\] Check the [tutorial](ceLLama/pbmc2700.ipynb) for Scanpy
-> example.
+> \[!NOTE\]
+
+> Check the [tutorial](ceLLama/pbmc2700.ipynb) for Scanpy example.
 
 ## Installation
 
@@ -111,7 +112,9 @@ res <- ceLLama(pbmc.markers.list, temperature = 0, seed = 101)
 
     ## >> Response: Myeloid cells (e.g., neutrophils or monocytes)
 
-> \[!TIP\] Increase `temperature` to diversify outputs. Set different
+> \[!TIP\]
+
+> Increase `temperature` to diversify outputs. Set different
 > `base_prompt` to customize annotations.
 
 Transfer the labels:
@@ -147,7 +150,9 @@ View the full report [here](report.html).
 
 ## Disclaimer
 
-> \[!IMPORTANT\] LLMs make mistakes, please check important info.
+> \[!IMPORTANT\]
+
+> LLMs make mistakes, please check important info.
 
 ## License
 
