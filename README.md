@@ -15,8 +15,7 @@ using large-language models (LLMs).
 
 ceLLama is ideal for quick and preliminary cell type checks!
 
-> \[!NOTE\]
-
+> \[!NOTE\]  
 > Check the [tutorial](ceLLama/pbmc2700.ipynb) for Scanpy example.
 
 ## Installation
@@ -76,6 +75,8 @@ DimPlot(pbmc, label = T, label.size = 3) + theme_void() + theme(aspect.ratio = 1
 Identify cluster markers:
 
 ``` r
+DefaultAssay(pbmc) <- "RNA"
+
 # Find cluster markers
 pbmc.markers <- FindAllMarkers(pbmc, verbose = F, min.pct = 0.5)
 
@@ -89,16 +90,16 @@ Run ceLLama:
 # set seed, make temperature 0 for reproducible results
 library(ceLLama)
 
-res <- ceLLama(pbmc.markers.list, temperature = 0, seed = 101)
+res <- ceLLama(pbmc.markers.list, temperature = 0, seed = 101, n_genes = 30)
 ```
 
-    ## >> Response: Monocyte/Macrophage
+    ## >> Response: CD8+ T cells
 
     ## >> Response: Neutrophil
 
     ## >> Response: CD8+ T cells
 
-    ## >> Response: Plasma B cells
+    ## >> Response: Plasma B cells (CD19+ CD27+)
 
     ## >> Response: CD8+ T cells
 
@@ -108,12 +109,11 @@ res <- ceLLama(pbmc.markers.list, temperature = 0, seed = 101)
 
     ## >> Response: CD8+ T cells (cytotoxic/suppressor)
 
-    ## >> Response: Dendritic Cell (CD4- CD8-)
+    ## >> Response: Macrophage/Monocyte
 
-    ## >> Response: Myeloid cells (e.g., neutrophils or monocytes)
+    ## >> Response: Myeloid cells (e.g., neutrophils or macrophages)
 
-> \[!TIP\]
-
+> \[!TIP\]  
 > Increase `temperature` to diversify outputs. Set different
 > `base_prompt` to customize annotations.
 
@@ -150,8 +150,7 @@ View the full report [here](report.html).
 
 ## Disclaimer
 
-> \[!IMPORTANT\]
-
+> \[!IMPORTANT\]  
 > LLMs make mistakes, please check important info.
 
 ## License

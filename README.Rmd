@@ -20,8 +20,7 @@ ceLLama is a streamlined automation pipeline for cell type annotations using lar
 
 ceLLama is ideal for quick and preliminary cell type checks!
 
-> [!NOTE]
-
+> [!NOTE]\
 > Check the [tutorial](ceLLama/pbmc2700.ipynb) for Scanpy example.
 
 ## Installation
@@ -74,6 +73,8 @@ DimPlot(pbmc, label = T, label.size = 3) + theme_void() + theme(aspect.ratio = 1
 
 Identify cluster markers:
 ```{r find DEGs}
+DefaultAssay(pbmc) <- "RNA"
+
 # Find cluster markers
 pbmc.markers <- FindAllMarkers(pbmc, verbose = F, min.pct = 0.5)
 
@@ -86,11 +87,10 @@ Run ceLLama:
 # set seed, make temperature 0 for reproducible results
 library(ceLLama)
 
-res <- ceLLama(pbmc.markers.list, temperature = 0, seed = 101)
+res <- ceLLama(pbmc.markers.list, temperature = 0, seed = 101, n_genes = 30)
 ```
 
-> [!TIP]
-
+> [!TIP]\
 > Increase `temperature` to diversify outputs.
 > Set different `base_prompt` to customize annotations.
 
@@ -124,8 +124,7 @@ View the full report [here](report.html).
 
 ## Disclaimer
 
-> [!IMPORTANT]
-
+> [!IMPORTANT]\
 > LLMs make mistakes, please check important info.
 
 ## License
