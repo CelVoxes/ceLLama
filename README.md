@@ -15,7 +15,8 @@ using large-language models (LLMs).
 
 ceLLama is ideal for quick and preliminary cell type checks!
 
-> [!NOTE]
+> \[!NOTE\]
+
 > Check the [tutorial](ceLLama/pbmc2700.ipynb) for Scanpy example.
 
 ## Installation
@@ -38,7 +39,7 @@ Select your preferred model. For instance, to run the Llama3 model, use
 the following terminal command:
 
 ``` bash
-ollama run llama3
+ollama run llama3.1
 ```
 
 This initiates a local server, which can be verified by visiting
@@ -76,7 +77,7 @@ Identify cluster markers:
 
 ``` r
 # Find cluster markers
-pbmc.markers <- FindAllMarkers(pbmc, verbose = F)
+pbmc.markers <- FindAllMarkers(pbmc, verbose = F, min.pct = 0.5)
 
 # split into a lists per cluster
 pbmc.markers.list <- split(pbmc.markers, pbmc.markers$cluster)
@@ -91,15 +92,15 @@ library(ceLLama)
 res <- ceLLama(pbmc.markers.list, temperature = 0, seed = 101)
 ```
 
-    ## >> Response: Dendritic cells (DCs)
+    ## >> Response: Monocyte/Macrophage
 
-    ## >> Response: Neutrophils
+    ## >> Response: Neutrophil
 
     ## >> Response: CD8+ T cells
 
     ## >> Response: Plasma B cells
 
-    ## >> Response: CD8+ T cells (Tc1)
+    ## >> Response: CD8+ T cells
 
     ## >> Response: NK cells
 
@@ -107,11 +108,12 @@ res <- ceLLama(pbmc.markers.list, temperature = 0, seed = 101)
 
     ## >> Response: CD8+ T cells (cytotoxic/suppressor)
 
-    ## >> Response: Macrophage/Monocyte
+    ## >> Response: Dendritic Cell (CD4- CD8-)
 
     ## >> Response: Myeloid cells (e.g., neutrophils or monocytes)
 
-> [!TIP]
+> \[!TIP\]
+
 > Increase `temperature` to diversify outputs. Set different
 > `base_prompt` to customize annotations.
 
@@ -124,7 +126,7 @@ annotations <- map_chr(res, 1)
 names(annotations) <- levels(pbmc)
 pbmc <- RenameIdents(pbmc, annotations)
 
-DimPlot(pbmc, label = T, repel = T, label.size = 3) + theme_void() + theme(aspect.ratio = 1)
+DimPlot(pbmc, label = T, repel = T, label.size = 3) + theme_void() + theme(aspect.ratio = 1) & NoLegend()
 ```
 
 ![](README_files/figure-gfm/transfer%20annotations-1.png)<!-- -->
@@ -137,18 +139,19 @@ Generate detailed reports explaining the annotations:
 # Get the reason for the annotation! (a bit slower)
 res <- ceLLama(pbmc.markers.list, temperature = 0, seed = 101, get_reason = T)
 
-# These creates 
+# These creates html report in the current directory
 generate_report_md(res)
 create_html_report()
 ```
 
-![](ceLLama_files/report_example.png)
+![](ceLLama_files/report-example.png)
 
 View the full report [here](report.html).
 
 ## Disclaimer
 
-> [!IMPORTANT]
+> \[!IMPORTANT\]
+
 > LLMs make mistakes, please check important info.
 
 ## License

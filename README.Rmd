@@ -42,7 +42,7 @@ Download [`Ollama`](https://ollama.com/).
 Select your preferred model. For instance, to run the Llama3 model, use the following terminal command:
 
 ```{bash eval=FALSE}
-ollama run llama3
+ollama run llama3.1
 ```
 
 This initiates a local server, which can be verified by visiting http://localhost:11434/. The page should display "Ollama is running".
@@ -75,7 +75,7 @@ DimPlot(pbmc, label = T, label.size = 3) + theme_void() + theme(aspect.ratio = 1
 Identify cluster markers:
 ```{r find DEGs}
 # Find cluster markers
-pbmc.markers <- FindAllMarkers(pbmc, verbose = F)
+pbmc.markers <- FindAllMarkers(pbmc, verbose = F, min.pct = 0.5)
 
 # split into a lists per cluster
 pbmc.markers.list <- split(pbmc.markers, pbmc.markers$cluster)
@@ -102,7 +102,7 @@ annotations <- map_chr(res, 1)
 names(annotations) <- levels(pbmc)
 pbmc <- RenameIdents(pbmc, annotations)
 
-DimPlot(pbmc, label = T, repel = T, label.size = 3) + theme_void() + theme(aspect.ratio = 1)
+DimPlot(pbmc, label = T, repel = T, label.size = 3) + theme_void() + theme(aspect.ratio = 1) & NoLegend()
 ```
 
 ## Creating Reports
@@ -112,14 +112,15 @@ Generate detailed reports explaining the annotations:
 # Get the reason for the annotation! (a bit slower)
 res <- ceLLama(pbmc.markers.list, temperature = 0, seed = 101, get_reason = T)
 
-# These creates 
+# These creates html report in the current directory
 generate_report_md(res)
 create_html_report()
 ```
 
-![](ceLLama_files/report_example.png)
+![](ceLLama_files/report-example.png)
 
 View the full report [here](report.html).
+
 
 ## Disclaimer
 
