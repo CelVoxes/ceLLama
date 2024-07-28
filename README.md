@@ -23,7 +23,7 @@ ceLLama is ideal for quick and preliminary cell type checks!
 To install ceLLama, use the following command:
 
 ``` r
-devtools::install_github("eonurk/ceLLama")
+devtools::install_github("CelVoxes/ceLLama")
 ```
 
 ## Usage
