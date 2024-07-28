@@ -157,3 +157,8 @@ View the full report [here](report.html).
 
 This project is licensed under the CC BY-NC 4.0 License. For more
 details, visit [here](https://creativecommons.org/licenses/by-nc/4.0/).
+
+## Further questions?
+You can join our discord community! 
+
+[Click here to join](https://discord.gg/Ar5SJMgWDN)
