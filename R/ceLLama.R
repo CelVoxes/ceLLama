@@ -110,7 +110,7 @@ ceLLama <- function(
   n_genes = 20,
   seed = 101,
   base_prompt = "Act like an expert immunologist and give me the cell type annotation for this cluster. Please, reply only with the answer and nothing else! If you're not sure just label it as 'unsure'.",
-  model = "llama3",
+  model = "llama3.1",
   get_reason = FALSE,
   url = "http://localhost:11434/api/generate",
   temperature = 0.1
