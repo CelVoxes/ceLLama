@@ -146,34 +146,49 @@ ceLLama <- function(
     marker.list,
     n_genes = 20,
     seed = 101,
-    base_prompt = "Act like an expert immunologist and give me the cell type annotation for this cluster. Please, reply only with the answer and nothing else! If you're not sure just label it as 'unsure'.",
+    base_prompt = "Act like an expert immunologist and give me the cell type annotation for this cluster. Please, reply only with the CELL TYPE and NOTHING ELSE!",
     model = "llama3.1",
     get_reason = FALSE,
     url = "http://localhost:11434/api/generate",
     temperature = 0.1,
+    use_thinkR = FALSE,
     use_openai = FALSE,
-    openai_api_key = NULL) {
+    openai_api_key = NULL,
+    top_p = 0.9) {
   # Select top genes
   top_genes <- lapply(marker.list, select_top_genes, n = n_genes)
 
   # Format annotation data
   annotation_data <- format_annotation_data(top_genes, base_prompt)
 
+  message(">> ", model, " is being used with a temperature setting of ", temperature)
+
   # Annotate all clusters and get reasons
   annotations <- lapply(annotation_data, function(description) {
     annotation_prompt <- paste0(description, base_prompt)
+
+    if (use_openai && use_thinkR) {
+      stop("You can't use both OpenAI and thinkR at the same time!")
+    }
 
     if (use_openai) {
       if (is.null(openai_api_key)) {
         stop("OpenAI API key is required when use_openai is set to TRUE")
       }
-      message(model, " is being used!")
       annotation <- get_openai_annotation(annotation_prompt, api_key = openai_api_key, model, temperature = temperature)
+      message(">> Response: ", annotation)
+    } else if (use_thinkR) {
+      require(thinkR)
+      ## Usage example
+      annotation_prompt <- paste0(annotation_prompt, "THE 'final_answer' MUST BE JUST THE CELL TYPE. NOTHING ELSE! JUST THE CELL TYPE.")
+
+      ollama <- OllamaHandler$new(model, temperature = temperature, top_p = top_p)
+      annotation <- generate_response(annotation_prompt, ollama)
     } else {
       annotation <- get_annotation(annotation_prompt, model, url, seed = seed, temperature = temperature)
+      message(">> Response: ", annotation)
     }
 
-    message(">> Response: ", annotation)
 
     reason <- NULL
     if (get_reason) {
@@ -187,7 +202,7 @@ ceLLama <- function(
         reason <- get_reason(annotation, description, model, url, seed = seed, temperature = temperature)
       }
     }
-    list(annotation = annotation, description = description, reason = reason)
+    return(list(annotation = annotation, description = description, reason = reason))
   })
 
   return(annotations)

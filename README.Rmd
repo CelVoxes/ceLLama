@@ -54,7 +54,7 @@ library(Seurat)
 library(tidyverse)
 library(httr)
 
-pbmc.data <- Read10X("../../../Downloads/filtered_gene_bc_matrices/hg19/")
+pbmc.data <- Read10X("../../Downloads/filtered_gene_bc_matrices/hg19/")
 
 pbmc <- CreateSeuratObject(counts = pbmc.data, project = "pbmc3k", min.cells = 3, min.features = 200)
 pbmc[["percent.mt"]] <- PercentageFeatureSet(pbmc, pattern = "^MT-")
@@ -99,14 +99,108 @@ Transfer the labels:
 # transfer the labels
 annotations <- map_chr(res, 1)
 
+Idents(pbmc) <- "seurat_clusters"
 names(annotations) <- levels(pbmc)
 pbmc <- RenameIdents(pbmc, annotations)
 
 DimPlot(pbmc, label = T, repel = T, label.size = 3) + theme_void() + theme(aspect.ratio = 1) & NoLegend()
 ```
 
+
+## Chain of Thought (Experimental)
+
+Here, we can utilize [thinkR](https://github.com/eonurk/thinkR) package for annotation. The goal of this approach is to leverage the modal's capabilities to break down complex reasoning processes into structured steps. This stepwise decomposition in principle should allow for clear annotations, capturing the intermediate thinking and decision-making throughout an analysis or problem-solving task.
+
+```{r}
+# devtools::install_github("eonurk/thinkR")
+library(thinkR)
+```
+
+
+```{r eval=FALSE}
+# use_thinkR = T
+res <- ceLLama(pbmc.markers.list, temperature = 0, seed = 101, n_genes = 30, use_thinkR = T, 
+               base_prompt = "This is from a PBMC dataset. Act like an expert immunologist and give me the cell type annotation for this cluster. ")
+```
+
+<details><summary>Thinking...</summary>
+```{r echo=FALSE}
+# Assuming `res` contains the results to be displayed in markdown format
+res <- readRDS("thinkR_results.rds")
+
+# Formatting the output properly for markdown
+output <- paste(
+  unlist(lapply(res, function(res_inner){
+    lapply(res_inner$annotation$steps, function(m) {
+      
+      if (!is.null(m$title) && !is.null(m$content) && !is.null(m$thinking_time)) {
+        sprintf(
+          "### %s\n\n%s\n\n**Time:** %s s\n\n---\n", 
+          m$title, m$content, m$thinking_time
+        )
+      }
+      
+    })
+  })),
+  collapse = "\n"
+)
+
+# Printing the output for markdown without c("")
+cat(output)
+```
+</details>
+
+```{r echo=FALSE}
+# Load necessary package for parsing JSON
+library(jsonlite)
+
+# Assuming `res` contains the structured results as described
+res <- readRDS("thinkR_results.rds")
+
+# Extracting the final answers in a clean format
+final_annotations <- sapply(res, function(res_inner) {
+  # Retrieve all steps from the annotation
+  steps <- res_inner$annotation$steps
+  
+  # Find the step with title "Final Answer" and extract its content
+  final_step <- Filter(function(step) step$title == "Final Answer", steps)
+  
+  # Extract and parse the content of the "Final Answer" step
+  if (length(final_step) > 0) {
+    content <- trimws(final_step[[1]]$content)  # Trim whitespace
+    
+    # Attempt to parse content as JSON, if it is in JSON format
+    parsed <- tryCatch(fromJSON(content), error = function(e) NULL)
+    
+    # If parsed successfully, extract the relevant field
+    if (!is.null(parsed)) {
+      paste0(trimws(parsed$content), " (Confidence: ", parsed$confidence, ")")
+    } else {
+      content  # Return content as is if not JSON
+    }
+  } else {
+    NA  # If no final answer is found, return NA
+  }
+})
+
+# Print the final answers in a clean format
+cat(paste(final_annotations, collapse = "\n"))
+```
+
+```{r}
+Idents(pbmc) <- "seurat_clusters"
+names(final_annotations) <- levels(pbmc)
+pbmc <- RenameIdents(pbmc, final_annotations)
+
+DimPlot(pbmc, label = T, repel = T, label.size = 3) + theme_void() + theme(aspect.ratio = 1) & NoLegend()
+```
+
+
 ## Using OpenAI API
 You can also use OpenAI for annotating your cell types.
+
+> [!WARNING]\
+> This will send data to OpenAI!
 
 First, you can to create a `.Renviron` file where you keep your API key.
 `OPENAI_API_KEY="Best_key_ever"`
@@ -123,6 +217,7 @@ res.openai <-
 # transfer the labels
 annotations <- map_chr(res.openai, 1)
 
+Idents(pbmc) <- "seurat_clusters"
 names(annotations) <- levels(pbmc)
 pbmc <- RenameIdents(pbmc, annotations)
 
