@@ -1376,15 +1376,6 @@ Thinking…
 
 </details>
 
-    ## Warning: package 'jsonlite' was built under R version 4.2.3
-
-    ## 
-    ## Attaching package: 'jsonlite'
-
-    ## The following object is masked from 'package:purrr':
-    ## 
-    ##     flatten
-
     ## T-cells (Confidence: 95)
     ## Monocytes (Confidence: 100)
     ## CD8+ T Cells (Confidence: 98)
@@ -1408,12 +1399,11 @@ DimPlot(pbmc, label = T, repel = T, label.size = 3) + theme_void() + theme(aspec
 
 ## Using OpenAI API
 
-You can also use OpenAI for annotating your cell types.
-
 > \[!WARNING\]  
 > This will send data to OpenAI!
 
-First, you can to create a `.Renviron` file where you keep your API key.
+You can also use OpenAI for annotating your cell types. First, you can
+to create a `.Renviron` file where you keep your API key.
 `OPENAI_API_KEY="Best_key_ever"`
 
 ``` r
@@ -1436,7 +1426,8 @@ res.openai <-
 
     ## >> Response: B cell
 
-    ## >> Response: Cytotoxic T lymphocytes (CTLs)
+    ## >> Response: Cytotoxic T lymphocyte (CTL)
+
     ## >> Response: Cytotoxic T lymphocytes (CTLs)
 
     ## >> Response: Monocyte/Macrophage

@@ -150,7 +150,7 @@ cat(output)
 ```
 </details>
 
-```{r echo=FALSE}
+```{r echo=FALSE, warning=FALSE}
 # Load necessary package for parsing JSON
 library(jsonlite)
 
@@ -197,11 +197,11 @@ DimPlot(pbmc, label = T, repel = T, label.size = 3) + theme_void() + theme(aspec
 
 
 ## Using OpenAI API
-You can also use OpenAI for annotating your cell types.
 
 > [!WARNING]\
 > This will send data to OpenAI!
 
+You can also use OpenAI for annotating your cell types.
 First, you can to create a `.Renviron` file where you keep your API key.
 `OPENAI_API_KEY="Best_key_ever"`
 
