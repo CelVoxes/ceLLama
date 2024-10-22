@@ -1,0 +1,17 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: ceLLama
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Emin Onur
+    family-names: Karakaslar
+    email: eonurkara@gmail.com
+    affiliation: Leiden University Medical Center
+repository-code: 'https://github.com/CelVoxes/ceLLama'
+url: 'https://celvox.co/solutions/cellama'
+license: CC-BY-4.0
