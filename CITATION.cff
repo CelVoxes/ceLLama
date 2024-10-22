@@ -12,6 +12,9 @@ authors:
     family-names: Karakaslar
     email: eonurkara@gmail.com
     affiliation: Leiden University Medical Center
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.13970320
 repository-code: 'https://github.com/CelVoxes/ceLLama'
 url: 'https://celvox.co/solutions/cellama'
 license: CC-BY-4.0
