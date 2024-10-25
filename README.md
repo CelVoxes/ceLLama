@@ -6,6 +6,8 @@ ceLLama
 ceLLama is a streamlined automation pipeline for cell type annotations
 using large-language models (LLMs).
 
+ceLLama was featured on [![image](https://github.com/user-attachments/assets/e811b236-0605-46fe-88e3-76d627cbbc74)](https://www.nature.com/articles/d41586-024-02998-y)
+
 ### Advantages:
 
 - **Privacy**: Operates locally, ensuring no data leaks.
